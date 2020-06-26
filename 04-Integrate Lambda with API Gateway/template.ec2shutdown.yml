@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  Get:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: EC2Shutdown::EC2Shutdown.Bootstrap::ExecuteFunction
+      Runtime: dotnetcore3.1
+      CodeUri: EC2Shutdown.zip
+      MemorySize: 512
+      Role: arn:aws:iam::665453315198:role/cbtnuggets03
+      Events:
+        MessageApi:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+Outputs:
+  ApiURL:
+    Description: URL of the API Gateway
+    Value: !Sub https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/
